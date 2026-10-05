@@ -30,6 +30,12 @@ public class MovieController {
         return movieService.findAll();
     }
 
+    @GetMapping("/search")
+    public List<MovieResponse> findByGenre(
+            @RequestParam String genre) {
+        return movieService.findByGenre(genre);
+    }
+
     @GetMapping("/{id}")
     public MovieResponse findById(@PathVariable Long id) {
         return movieService.findById(id);

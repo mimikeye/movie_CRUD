@@ -24,6 +24,13 @@ public class MemoryMovieRepository implements MovieRepository {
     }
 
     @Override
+    public List<Movie> findByGenre(String genre) {
+        return store.values().stream()
+                .filter(movie -> movie.getGenre().equalsIgnoreCase(genre))
+                .toList();
+    }
+
+    @Override
     public Optional<Movie> findById(Long id) {
         return Optional.ofNullable(store.get(id));
     }

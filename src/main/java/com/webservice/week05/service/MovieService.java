@@ -42,6 +42,13 @@ public class MovieService {
                 .toList();
     }
 
+    public List<MovieResponse> findByGenre(String genre) {
+        return repository.findByGenre(genre)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
     public MovieResponse findById(Long id) {
         return toResponse(findMovie(id));
     }
