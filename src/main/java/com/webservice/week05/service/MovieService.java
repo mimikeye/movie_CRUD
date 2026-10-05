@@ -71,7 +71,6 @@ public class MovieService {
                         )
                 );
     }
-
     private MovieResponse toResponse(Movie movie) {
         return new MovieResponse(
                 movie.getId(),
