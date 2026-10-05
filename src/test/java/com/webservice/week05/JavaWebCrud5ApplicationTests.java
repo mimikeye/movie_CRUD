@@ -1,4 +1,4 @@
-package org.example.week04.java_web_crud5;
+package com.webservice.week05;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
