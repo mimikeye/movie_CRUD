@@ -20,6 +20,8 @@ public class MovieService {
     }
 
     public MovieResponse create(MovieRequest r) {
+        validate(r);
+
         Movie movie = new Movie(
                 null,
                 r.title(),
@@ -45,6 +47,8 @@ public class MovieService {
     }
 
     public MovieResponse update(Long id, MovieRequest r) {
+        validate(r);
+
         Movie movie = findMovie(id);
 
         movie.setTitle(r.title());
@@ -62,6 +66,50 @@ public class MovieService {
         repository.deleteById(id);
     }
 
+    private void validate(MovieRequest r) {
+        if (r.title() == null || r.title().isBlank()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Title is required"
+            );
+        }
+
+        if (r.director() == null || r.director().isBlank()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Director is required"
+            );
+        }
+
+        if (r.genre() == null || r.genre().isBlank()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Genre is required"
+            );
+        }
+
+        if (r.releaseYear() < 1888 || r.releaseYear() > 2026) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Invalid release year"
+            );
+        }
+
+        if (r.rating() < 0 || r.rating() > 10) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Rating must be between 0 and 10"
+            );
+        }
+
+        if (r.runningTime() <= 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Running time must be greater than 0"
+            );
+        }
+    }
+
     private Movie findMovie(Long id) {
         return repository.findById(id)
                 .orElseThrow(() ->
@@ -71,6 +119,7 @@ public class MovieService {
                         )
                 );
     }
+
     private MovieResponse toResponse(Movie movie) {
         return new MovieResponse(
                 movie.getId(),
